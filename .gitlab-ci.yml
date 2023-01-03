@@ -1,0 +1,22 @@
+image: node:16
+cache:
+  paths:
+    - /
+ 
+before_script:
+  -    # enter the React app directory
+  - rm -rf build     # remove the existing build
+  - CI=false npm install     # install required packages
+ 
+pages:
+  stage: deploy
+  environment: Production
+  script:
+    - CI=false npm run start     # build the React app, set CI=false because CI=true treats all warnings as errors
+    - export
+  artifacts:
+    paths:
+      - public       # only allow paths in project root directory for some reason
+  only:
+    refs:
+      - develop     # deploy contents in master branch
