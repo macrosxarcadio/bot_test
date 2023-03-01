@@ -92,7 +92,7 @@ bot.command('sueldo', (ctx) => {
     readBalance(txt[1],txt[2]).then((response) => response.forEach(a => ctx.reply(`Trabajadora: ${a[3]} \nProyecto: ${a[2]} \nHoras: ${a[7]} \nSueldo antes aporte: ${a[9]}`))); 
 });
 
-app.listen(parseInt(process.env.PORT), () => {
+app.listen("/api", () => {
     console.log(`Express running port ${process.env.PORT}`);
     bot.launch();
 })
