@@ -1,5 +1,5 @@
 {
-  "name": "accounting bot",
+  "name": "accountingbot",
   "version": "0.0.1",
   "dependencies": {
     "dotenv": "^16.0.2",
