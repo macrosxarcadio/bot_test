@@ -92,18 +92,18 @@ bot.command('sueldo', (ctx) => {
     readBalance(txt[1],txt[2]).then((response) => response.forEach(a => ctx.reply(`Trabajadora: ${a[3]} \nProyecto: ${a[2]} \nHoras: ${a[7]} \nSueldo antes aporte: ${a[9]}`))); 
 });
 
-export default app.listen("/api", () => {
+app.listen("/api", () => {
     console.log(`Express running port ${process.env.PORT}`);
     bot.launch();
 })
 
 
-/* export default app.get('/api', (req, res) => {
+export default app.get('/api', (req, res) => {
     const path = `/api/item/${v4()}`;
     res.setHeader('Content-Type', 'text/html');
     res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
     res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-  }); */
+  });
 
 
 
