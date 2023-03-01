@@ -98,12 +98,11 @@ app.listen("/api", () => {
 })
 
 
-export default app.get('/api', (req, res) => {
-    const path = `/api/item/${v4()}`;
-    res.setHeader('Content-Type', 'text/html');
-    res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-    res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-  });
+export default function handler(req, res) {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({ name: 'John Doe' });
+  }
 
 
 
