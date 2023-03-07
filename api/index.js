@@ -21,8 +21,10 @@ async function main(){
     main().catch(console.error);
 
 async function read(range, majorDimension) {
-    try{
+    console.log(main())
+/*     try{
     //Instance of google sheets api
+    console.log(main());
     const googleSheets = google.sheets({ version: 'v4', auth: main() });
     const met = await googleSheets.spreadsheets.values.get({
         auth,
@@ -33,7 +35,7 @@ async function read(range, majorDimension) {
     return met.data.values;
 } catch (error) {
     console.log(error);
-}
+} */
 }
 
 async function readBalance(month, worker) {
@@ -62,7 +64,8 @@ async function readPersonalBalance(month) {
 
 async function write(data) {
     //Instance of google sheets api
-    const googleSheets = google.sheets({ version: 'v4', auth: main() });
+    console.log(main());
+/*     const googleSheets = google.sheets({ version: 'v4', auth: main() });
     try {
         const writing = await googleSheets.spreadsheets.values.append({
             spreadsheetId: '1Ku5VfmmmsTGDzEUoPqUQ-Hdh0bD-mmSfF4u6O6sFj8I',
@@ -74,7 +77,7 @@ async function write(data) {
         return writing;
     } catch (error) {
         console.log(error);
-    }
+    } */
 }
 
 //Declare new spent
