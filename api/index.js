@@ -21,10 +21,9 @@ async function main(){
     main().catch(console.error);
 
 async function read(range, majorDimension) {
-    console.log(main())
-/*     try{
+     try{
     //Instance of google sheets api
-    console.log(main());
+    console.log("auth malo")
     const googleSheets = google.sheets({ version: 'v4', auth: main() });
     const met = await googleSheets.spreadsheets.values.get({
         auth,
@@ -34,8 +33,8 @@ async function read(range, majorDimension) {
     });
     return met.data.values;
 } catch (error) {
-    console.log(error);
-} */
+    console.log("try malo");
+}
 }
 
 async function readBalance(month, worker) {
@@ -64,8 +63,8 @@ async function readPersonalBalance(month) {
 
 async function write(data) {
     //Instance of google sheets api
-    console.log(main());
-/*     const googleSheets = google.sheets({ version: 'v4', auth: main() });
+    console.log("auth malo write");
+    const googleSheets = google.sheets({ version: 'v4', auth: main() });
     try {
         const writing = await googleSheets.spreadsheets.values.append({
             spreadsheetId: '1Ku5VfmmmsTGDzEUoPqUQ-Hdh0bD-mmSfF4u6O6sFj8I',
@@ -76,8 +75,8 @@ async function write(data) {
         });
         return writing;
     } catch (error) {
-        console.log(error);
-    } */
+        console.log("malo");
+    } 
 }
 
 //Declare new spent
