@@ -10,45 +10,52 @@ require('dotenv').config()
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
-console.log(typeof(process.env.GOOGLE_APPLICATION_CREDENTIALS))
-async function main(){
-    const auth = new GoogleAuth({
-        scopes: 'https://www.googleapis.com/auth/spreadsheets'
-      });
-      const client = await auth.getClient();
-      // Usa el cliente para hacer llamadas a la API de Google
-      return client
+console.log(typeof (process.env.GOOGLE_APPLICATION_CREDENTIALS))
+
+
+async function main() {
+    try {
+        const auth = new GoogleAuth({
+            scopes: 'https://www.googleapis.com/auth/spreadsheets'
+        });
+        const client = await auth.getClient();
+        // Usa el cliente para hacer llamadas a la API de Google
+        return client
+    } catch (error){
+        console.log("error of auth :",error);
     }
-    main().catch(console.error);
+
+}
 
 async function read(range, majorDimension) {
-     try{
-    //Instance of google sheets api
-    console.log("auth malo")
-    const googleSheets = google.sheets({ version: 'v4', auth: main() });
-    const met = await googleSheets.spreadsheets.values.get({
-        auth,
-        spreadsheetId: '1Ku5VfmmmsTGDzEUoPqUQ-Hdh0bD-mmSfF4u6O6sFj8I',
-        range: `${range}`,
-        majorDimension: majorDimension ? majorDimension : null,
-    });
-    return met.data.values;
-} catch (error) {
-    console.log("try malo");
-}
+    try {
+        //Instance of google sheets api
+        console.log("auth malo")
+        client = main();
+        const googleSheets = google.sheets({ version: 'v4', auth: client });
+        const met = await googleSheets.spreadsheets.values.get({
+            auth,
+            spreadsheetId: '1Ku5VfmmmsTGDzEUoPqUQ-Hdh0bD-mmSfF4u6O6sFj8I',
+            range: `${range}`,
+            majorDimension: majorDimension ? majorDimension : null,
+        });
+        return met.data.values;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 async function readBalance(month, worker) {
     try {
-    // funciona como un buscar V
-    let balanceMonth = await read('Base!C:N', 'ROWS');
-    const date = new RegExp(`${month}\/2022`);
-    const work = new RegExp(`^${worker}$`);
-    const actual = [];
-    const workers = [];
-    balanceMonth.forEach(item => item.forEach((a) => !!a.match(date) && actual.push(item)));
-    actual.forEach(item => item.forEach((a) => !!a.match(work) && workers.push(item)));
-    return workers;
+        // funciona como un buscar V
+        let balanceMonth = await read('Base!C:N', 'ROWS');
+        const date = new RegExp(`${month}\/2022`);
+        const work = new RegExp(`^${worker}$`);
+        const actual = [];
+        const workers = [];
+        balanceMonth.forEach(item => item.forEach((a) => !!a.match(date) && actual.push(item)));
+        actual.forEach(item => item.forEach((a) => !!a.match(work) && workers.push(item)));
+        return workers;
     } catch (error) {
         console.log(error);
     }
@@ -64,9 +71,9 @@ async function readPersonalBalance(month) {
 
 async function write(data) {
     //Instance of google sheets api
-    console.log("auth malo write");
-    const googleSheets = google.sheets({ version: 'v4', auth: main() });
     try {
+        client = main()
+        const googleSheets = google.sheets({ version: 'v4', auth: client });
         const writing = await googleSheets.spreadsheets.values.append({
             spreadsheetId: '1Ku5VfmmmsTGDzEUoPqUQ-Hdh0bD-mmSfF4u6O6sFj8I',
             range: 'Gastos-Commit!A:J',
@@ -76,8 +83,8 @@ async function write(data) {
         });
         return writing;
     } catch (error) {
-        console.log("malo");
-    } 
+        console.log(error);
+    }
 }
 
 //Declare new spent
@@ -85,13 +92,13 @@ bot.command('gasto', (ctx) => {
     const regtime = moment().format('DD-MM-YYYY');
     const str = ctx.message.text;
     const spentReg = str.match(/(?:^\/\w+)(\s+)(?<worker>\w+)(\s+)(?<money>-?\d+)(\s+)+(?<notes>.+)/mu)
-    if (spentReg !== null && spentReg !== undefined){
-      const {worker, money, notes} = spentReg.groups; 
-      const data = { values: [[, , regtime, , money, worker, notes, 'bot']] };
-      console.log("llega a write", data);
-      console.log("write func", write(data));
-      write(data);
-      ctx.reply(` persona: ${worker} \n monto: ${money} \n notas: ${notes} \n fecha: ${regtime}`);
+    if (spentReg !== null && spentReg !== undefined) {
+        const { worker, money, notes } = spentReg.groups;
+        const data = { values: [[, , regtime, , money, worker, notes, 'bot']] };
+        console.log("llega a write", data);
+        console.log("write func", write(data));
+        write(data);
+        ctx.reply(` persona: ${worker} \n monto: ${money} \n notas: ${notes} \n fecha: ${regtime}`);
     } else {
         ctx.reply(`anote bien`);
         ctx.reply(spentReg);
