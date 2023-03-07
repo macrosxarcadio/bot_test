@@ -10,7 +10,7 @@ require('dotenv').config()
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
 console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
-console.log(typeof (process.env.GOOGLE_APPLICATION_CREDENTIALS))
+console.log(typeof (JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)))
 
 
 async function main() {
