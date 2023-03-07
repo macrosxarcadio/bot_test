@@ -16,7 +16,8 @@ console.log(typeof (JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)))
 async function main() {
     try {
         const auth = new GoogleAuth({
-            scopes: 'https://www.googleapis.com/auth/spreadsheets'
+            scopes: 'https://www.googleapis.com/auth/spreadsheets',
+            keyFile: JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
         });
         const client = await auth.getClient();
         // Usa el cliente para hacer llamadas a la API de Google
