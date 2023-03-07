@@ -22,7 +22,6 @@ async function main(){
 
 async function read(range, majorDimension) {
     try{
-    //Create client instance
     //Instance of google sheets api
     const googleSheets = google.sheets({ version: 'v4', auth: main() });
     const met = await googleSheets.spreadsheets.values.get({
