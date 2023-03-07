@@ -3,3 +3,4 @@ package-lock.json
 credentials.json
 node_modules/package-lock.json
 .env
+.vercel
