@@ -9,7 +9,8 @@ const { GoogleAuth } = require('google-auth-library');
 require('dotenv').config()
 const bot = new Telegraf(process.env.BOT_TOKEN)
 
-
+console.log(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+console.log(typeof(process.env.GOOGLE_APPLICATION_CREDENTIALS))
 async function main(){
     const auth = new GoogleAuth({
         scopes: 'https://www.googleapis.com/auth/spreadsheets'
